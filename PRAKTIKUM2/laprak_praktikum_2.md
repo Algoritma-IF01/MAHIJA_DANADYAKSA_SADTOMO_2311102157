@@ -108,3 +108,81 @@ func main() {
 }
 ```
 ![hello world!](assets/p4.png)
+
+## E. Bola (Tugas no. 3)
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var r float64
+	var luas, volume float64
+
+	fmt.Print("Masukkan jari-jari bola: ")
+	fmt.Scanln(&r)
+	luas = 4 * 3.14 * r * r
+	volume = (4.0 / 3.0) * 3.14 * r * r * r
+	fmt.Println("Bola dengan jejari ", r, " memiliki volume ", volume, " dan luas kulit ", luas)
+}
+```
+![hello world!](assets/t1.png)
+
+## F. Suhu (Tugas no. 4)
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var celcius, fahrenheit, kelvin float64
+
+	fmt.Print("Masukkan suhu dalam celcius: ")
+	fmt.Scanln(&celcius)
+	fahrenheit = (celcius * 9 / 5) + 32
+	kelvin = celcius + 273.15
+	fmt.Println("Suhu dalam fahrenheit: ", fahrenheit)
+	fmt.Println("Suhu dalam kelvin: ", kelvin)
+}
+```
+![hello world!](assets/t2.png)
+
+## G. ASCII (Tugas no. 5)
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var integers [5]int
+	var chars [3]rune
+
+	for i := 0; i < 5; i++ {
+		fmt.Scanf("%d", &integers[i])
+	}
+
+	for i := 0; i < 3; i++ {
+		fmt.Scanf("%c", &chars[i])
+	}
+
+	for i := 0; i < 5; i++ {
+		fmt.Printf("%c", rune(integers[i]))
+	}
+	fmt.Println()
+
+	for i := 0; i < 3; i++ {
+		fmt.Printf("%c", chars[i]+3)
+	}
+	fmt.Println()
+}
+```
+![hello world!](assets/t3.png)
