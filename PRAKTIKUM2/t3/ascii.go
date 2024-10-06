@@ -1,28 +1,20 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	var integers [5]int
-	var chars [3]rune
 
-	for i := 0; i < 5; i++ {
-		fmt.Scanf("%d", &integers[i])
+	var a, b, c, d, e int
+	fmt.Scan(&a, &b, &c, &d, &e)
+	
+	var kata string
+	fmt.Scan(&kata)
+	
+	fmt.Printf("%c%c%c%c%c\n", a, b, c, d, e)
+	
+	if len(kata) == 3 {
+		fmt.Printf("%c%c%c\n", kata[0]+1, kata[1]+1, kata[2]+1)
+	} else {
+		return
 	}
-
-	for i := 0; i < 3; i++ {
-		fmt.Scanf("%c", &chars[i])
-	}
-
-	for i := 0; i < 5; i++ {
-		fmt.Printf("%c", rune(integers[i]))
-	}
-	fmt.Println()
-
-	for i := 0; i < 3; i++ {
-		fmt.Printf("%c", chars[i]+3)
-	}
-	fmt.Println()
 }
