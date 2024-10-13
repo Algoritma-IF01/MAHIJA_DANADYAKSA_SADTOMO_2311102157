@@ -1,0 +1,3 @@
+module pita
+
+go 1.23.1
