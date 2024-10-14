@@ -1,4 +1,4 @@
-# <h1 align="center">Laporan Praktikum Modul 1 - Hello World</h1>
+# <h1 align="center">Laporan Praktikum Modul 3</h1>
 <p align="center">Mahija Danadyaksa Sadtomo_2311102157</p>
 
 ## A. Warna Kimia
