@@ -1,4 +1,4 @@
-# <h1 align="center">Laporan Praktikum Modul 1 - Hello World</h1>
+# <h1 align="center">Laporan Praktikum Modul 3</h1>
 <p align="center">Mahija Danadyaksa Sadtomo_2311102157</p>
 
 ## A. Warna Kimia
@@ -267,7 +267,7 @@ func main () {
 }
 }
 ```
-Jawablah pertanyaan-pertanyaan berikut:
+### Jawablah pertanyaan-pertanyaan berikut:
 1. Jika nam diberikan adalah 80.1, apa keluaran dari program tersebut? Apakah eksekusi program tersebut sesual spesifikasi soal? <br/>
 ![hello world!](assets/t4(1).png)
 Jawab: <br/>

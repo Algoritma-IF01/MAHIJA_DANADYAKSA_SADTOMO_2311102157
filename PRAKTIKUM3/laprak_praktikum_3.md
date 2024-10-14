@@ -267,7 +267,7 @@ func main () {
 }
 }
 ```
-Jawablah pertanyaan-pertanyaan berikut:
+### Jawablah pertanyaan-pertanyaan berikut:
 1. Jika nam diberikan adalah 80.1, apa keluaran dari program tersebut? Apakah eksekusi program tersebut sesual spesifikasi soal? <br/>
 ![hello world!](assets/t4(1).png)
 Jawab: <br/>
