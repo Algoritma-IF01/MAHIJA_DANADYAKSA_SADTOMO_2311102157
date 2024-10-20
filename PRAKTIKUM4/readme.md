@@ -287,3 +287,48 @@ func main() {
 }
 ```
 ![hello world!](assets/t3.png)
+
+## G. Skiena (Modul 4 no.3)
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func genap(n int) int {
+	return n / 2
+}
+
+func ganjil(n int) int {
+	return 3*n + 1
+}
+
+func skiena(n int)  {
+	fmt.Println("Urutan skiena: ", n)
+	for n != 1 {
+		fmt.Printf("%d ", n)
+		if n%2 == 0 {
+			n = genap(n)
+		} else {
+			n = ganjil(n)
+		}
+	}
+	fmt.Println(1)
+}
+
+func main() {
+	const nmax = 1000000
+	var n int
+	fmt.Print("Masukkan n (n<=1000000): ")
+	fmt.Scan(&n)
+
+	if n < nmax {
+		skiena(n)
+	} else {
+		fmt.Println("N terlalu besar")
+	}
+}
+```
+![hello world!](assets/t4.png)
