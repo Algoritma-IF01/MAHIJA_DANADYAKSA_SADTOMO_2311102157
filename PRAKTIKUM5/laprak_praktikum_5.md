@@ -1,4 +1,4 @@
-# <h1 align="center">Laporan Praktikum Modul 3 dan 4</h1>
+# <h1 align="center">Laporan Praktikum Modul 7</h1>
 <p align="center">Mahija Danadyaksa Sadtomo_2311102157</p>
 
 ## A. Alias
