@@ -1,245 +1,436 @@
-# <h1 align="center">Laporan Praktikum Modul 11</h1>
+# <h1 align="center">Laporan Praktikum Modul 12</h1>
 <p align="center">Mahija Danadyaksa Sadtomo_2311102157</p>
 
-## A. Nilai Ekstrim bilangan
+## A. Selection Sort
 
 ```go
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-type arrInt [2023]int
+type arrInt [4321]int
 
-// Fungsi untuk mencari indeks dari nilai terkecil
-func terkecil_2(tabInt arrInt, n int) int {
-	var idx int = 0 // indeks data pertama
-	var j int = 1   // pencarian dimulai dari data kedua
-	for j < n {
-		if tabInt[idx] > tabInt[j] { // cek apakah tabInt[j] lebih kecil dari tabInt[idx]
-			idx = j // update idx ke indeks baru yang nilainya lebih kecil
+func selectionSort1(T *arrInt, n int) {
+	/* I.S. terdefinisi array T yang berisi n bilangan bulat
+	   F.S. array T terurut secara ascending atau membesar dengan SELECTION SORT */
+	for i := 0; i < n-1; i++ {
+		// Inisialisasi indeks minimum
+		idx_min := i
+		for j := i + 1; j < n; j++ {
+			if T[j] < T[idx_min] {
+				idx_min = j
+			}
 		}
-		j = j + 1
+		// Tukar elemen T[i] dengan T[idx_min] jika perlu
+		if idx_min != i {
+			T[i], T[idx_min] = T[idx_min], T[i]
+		}
 	}
-	return idx // mengembalikan indeks dari nilai terkecil
 }
 
 func main() {
-	var n int
-	var data arrInt
+	// Contoh penggunaan
+	var T arrInt
+	n := 5
+	T[0], T[1], T[2], T[3], T[4] = 64, 34, 25, 12, 22
 
-	// Input jumlah elemen N
-	fmt.Print("Masukkan jumlah elemen (N <= 2023): ")
-	fmt.Scan(&n)
-
-	// Validasi N agar tidak melebihi kapasitas array
-	if n <= 0 || n > 2023 {
-		fmt.Println("Jumlah elemen harus antara 1 dan 2023")
-		return
-	}
-
-	// Input elemen-elemen array
-	fmt.Println("Masukkan elemen array:")
-	for i := 0; i < n; i++ {
-		fmt.Scan(&data[i])
-	}
-
-	// Panggil fungsi untuk mencari indeks nilai terkecil
-	idxTerkecil := terkecil_2(data, n)
-	fmt.Printf("Indeks nilai terkecil: %d\n", idxTerkecil)
-	fmt.Printf("Nilai terkecil: %d\n", data[idxTerkecil])
+	fmt.Println("Array sebelum diurutkan:", T[:n])
+	selectionSort1(&T, n)
+	fmt.Println("Array setelah diurutkan:", T[:n])
 }
+
 ```
 ![hello world!](assets/p1.png)
 
-## B. Nilai Ekstrim IPK Mahasiswa
+## B. Selection Sort Struct
 
 ```go
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// Mendefinisikan tipe data mahasiswa
 type mahasiswa struct {
 	nama, nim, kelas, jurusan string
 	ipk                       float64
 }
 
-// Mendefinisikan array mahasiswa dengan kapasitas 2023
 type arrMhs [2023]mahasiswa
 
-// Fungsi untuk mencari indeks mahasiswa dengan IPK tertinggi
-func IPK_2(T arrMhs, n int) int {
-	// idx menyimpan indeks mahasiswa dengan IPK tertinggi sementara
-	var idx int = 0
-	var j int = 1
-	for j < n {
-		if T[idx].ipk < T[j].ipk {
-			idx = j
+func selectionSort2(T *arrMhs, n int) {
+	/* I.S. terdefinisi array T yang berisi n data mahasiswa
+	   F.S. array T terurut secara ascending berdasarkan ipk dengan
+	   menggunakan algoritma SELECTION SORT */
+
+	var idx_min int
+	var temp mahasiswa
+
+	for i := 0; i < n-1; i++ {
+		// Inisialisasi indeks minimum
+		idx_min = i
+
+		// Cari elemen dengan IPK terkecil di subarray [i+1, n-1]
+		for j := i + 1; j < n; j++ {
+			if T[j].ipk < T[idx_min].ipk {
+				idx_min = j
+			}
 		}
-		j = j + 1
+
+		// Tukar elemen di indeks i dengan elemen di idx_min jika perlu
+		if idx_min != i {
+			temp = T[i]
+			T[i] = T[idx_min]
+			T[idx_min] = temp
+		}
 	}
-	return idx
 }
 
 func main() {
-	var n int
-	var data arrMhs
+	// Contoh data mahasiswa
+	var T arrMhs
+	T[0] = mahasiswa{"Alice", "123", "A", "Teknik Informatika", 3.8}
+	T[1] = mahasiswa{"Bob", "124", "B", "Sistem Informasi", 3.2}
+	T[2] = mahasiswa{"Charlie", "125", "A", "Teknik Informatika", 3.5}
+	T[3] = mahasiswa{"Diana", "126", "B", "Sistem Informasi", 3.9}
+	n := 4
 
-	// Input jumlah mahasiswa
-	fmt.Print("Masukkan jumlah mahasiswa (N <= 2023): ")
-	fmt.Scan(&n)
-
-	// Validasi jumlah mahasiswa
-	if n <= 0 || n > 2023 {
-		fmt.Println("Jumlah mahasiswa harus antara 1 dan 2023")
-		return
-	}
-
-	// Input data mahasiswa
+	fmt.Println("Data mahasiswa sebelum diurutkan:")
 	for i := 0; i < n; i++ {
-		fmt.Printf("Masukkan data mahasiswa ke-%d\n", i+1)
-		fmt.Print("Nama: ")
-		fmt.Scan(&data[i].nama)
-		fmt.Print("NIM: ")
-		fmt.Scan(&data[i].nim)
-		fmt.Print("Kelas: ")
-		fmt.Scan(&data[i].kelas)
-		fmt.Print("Jurusan: ")
-		fmt.Scan(&data[i].jurusan)
-		fmt.Print("IPK: ")
-		fmt.Scan(&data[i].ipk)
+		fmt.Printf("%s - %s - %s - %s - %.2f\n", T[i].nama, T[i].nim, T[i].kelas, T[i].jurusan, T[i].ipk)
 	}
 
-	// Panggil fungsi untuk mencari indeks mahasiswa dengan IPK tertinggi
-	idxTertinggi := IPK_2(data, n)
+	selectionSort2(&T, n)
 
-	// Tampilkan data mahasiswa dengan IPK tertinggi
-	fmt.Println("\nMahasiswa dengan IPK tertinggi:")
-	fmt.Printf("Nama    : %s\n", data[idxTertinggi].nama)
-	fmt.Printf("NIM     : %s\n", data[idxTertinggi].nim)
-	fmt.Printf("Kelas   : %s\n", data[idxTertinggi].kelas)
-	fmt.Printf("Jurusan : %s\n", data[idxTertinggi].jurusan)
-	fmt.Printf("IPK     : %.2f\n", data[idxTertinggi].ipk)
+	fmt.Println("\nData mahasiswa setelah diurutkan berdasarkan IPK:")
+	for i := 0; i < n; i++ {
+		fmt.Printf("%s - %s - %s - %s - %.2f\n", T[i].nama, T[i].nim, T[i].kelas, T[i].jurusan, T[i].ipk)
+	}
 }
 ```
 ![hello world!](assets/p2.png)
 
 
-## C. Nilai Ekstrim Bayi Kelinci
+## C. Insertion Sort
+
+```go
+package main
+
+import "fmt"
+
+type arrInt [4321]int
+
+func insertionSort1(T *arrInt, n int) {
+	/* I.S. terdefinisi array T yang berisi n bilangan bulat
+	   F.S. array T terurut secara mengecil (descending) dengan INSERTION SORT */
+	var temp, i, j int
+
+	for i = 1; i < n; i++ {
+		temp = T[i] // Simpan elemen ke-i
+		j = i       // Inisialisasi indeks pembanding
+
+		// Geser elemen-elemen sebelumnya yang lebih kecil dari temp
+		for j > 0 && temp > T[j-1] {
+			T[j] = T[j-1]
+			j--
+		}
+
+		// Tempatkan temp pada posisi yang sesuai
+		T[j] = temp
+	}
+}
+
+func main() {
+	// Contoh penggunaan
+	var T arrInt
+	n := 5
+	T[0], T[1], T[2], T[3], T[4] = 22, 12, 34, 64, 25
+
+	fmt.Println("Array sebelum diurutkan:", T[:n])
+	insertionSort1(&T, n)
+	fmt.Println("Array setelah diurutkan secara descending:", T[:n])
+}
+```
+![hello world!](assets/p3.png)
+
+## D. Insertion Sort Struct
+
+```go
+package main
+
+import "fmt"
+
+type mahasiswa struct {
+	nama, nim, kelas, jurusan string
+	ipk                       float64
+}
+
+type arrMhs [2023]mahasiswa
+
+func insertionSort2(T *arrMhs, n int) {
+	/* I.S. terdefinisi array T yang berisi n data mahasiswa
+	   F.S. array T terurut secara mengecil (descending) berdasarkan nama
+	   dengan menggunakan algoritma INSERTION SORT */
+	var temp mahasiswa
+	var i, j int
+
+	for i = 1; i < n; i++ {
+		temp = T[i] // Simpan elemen ke-i
+		j = i       // Inisialisasi indeks pembanding
+
+		// Geser elemen-elemen sebelumnya
+		for j > 0 && temp.nama > T[j-1].nama {
+			T[j] = T[j-1]
+			j--
+		}
+
+		// Tempatkan temp pada posisi yang sesuai
+		T[j] = temp
+	}
+}
+
+func main() {
+	// Contoh data mahasiswa
+	var T arrMhs
+	T[0] = mahasiswa{"Charlie", "125", "A", "Teknik Informatika", 3.5}
+	T[1] = mahasiswa{"Alice", "123", "A", "Teknik Informatika", 3.8}
+	T[2] = mahasiswa{"Bob", "124", "B", "Sistem Informasi", 3.2}
+	T[3] = mahasiswa{"Diana", "126", "B", "Sistem Informasi", 3.9}
+	n := 4
+
+	fmt.Println("Data mahasiswa sebelum diurutkan:")
+	for i := 0; i < n; i++ {
+		fmt.Printf("%s - %s - %s - %s - %.2f\n", T[i].nama, T[i].nim, T[i].kelas, T[i].jurusan, T[i].ipk)
+	}
+
+	insertionSort2(&T, n)
+
+	fmt.Println("\nData mahasiswa setelah diurutkan berdasarkan nama (descending):")
+	for i := 0; i < n; i++ {
+		fmt.Printf("%s - %s - %s - %s - %.2f\n", T[i].nama, T[i].nim, T[i].kelas, T[i].jurusan, T[i].ipk)
+	}
+}
+```
+![hello world!](assets/p4.png)
+
+## E. Selection Sort Rumah Kerabat Hercules
 
 ```go
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
-func main() {
-	var N int
-	fmt.Print("Masukkan jumlah anak kelinci: ")
-	fmt.Scan(&N)
-
-	if N <= 0 || N > 1000 {
-		fmt.Println("Jumlah anak kelinci harus antara 1 dan 1000")
-		return
-	}
-
-	weight := make([]float64, N)
-	fmt.Println("Masukkan berat anak kelinci:")
-	for i := 0; i < N; i++ {
-		fmt.Scan(&weight[i])
-	}
-
-	minWeight, maxWweight := weight[0], weight[0]
-
-	for _, w := range weight[1:] {
-		if w < minWeight {
-			minWeight = w
+func rumahkerabat(arr []int) {
+	n := len(arr)
+	for i := 0; i < n-1; i++ {
+		minIdx := i
+		for j := i + 1; j < n; j++ {
+			if arr[j] < arr[minIdx] {
+				minIdx = j
+			}
 		}
-		if w > maxWweight {
-			maxWweight = w
-		}
+		arr[i], arr[minIdx] = arr[minIdx], arr[i]
 	}
-
-	fmt.Printf("Berat kelinci terkecil: %.2f\n", minWeight)
-	fmt.Printf("Berat kelinci terbesar: %.2f\n", maxWweight)
 }
+
+func main() {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("Masukkan jumlah daerah (n): ")
+	nInput, _ := reader.ReadString('\n')
+	n, _ := strconv.Atoi(strings.TrimSpace(nInput))
+
+	for i := 0; i < n; i++ {
+		fmt.Printf("Masukkan banyak rumah di daerah %d: ", i+1)
+		mInput, _ := reader.ReadString('\n')
+		m, _ := strconv.Atoi(strings.TrimSpace(mInput))
+
+		fmt.Printf("Masukkan nomor rumah di daerah %d (dipisahkan dengan spasi): ", i+1)
+		housesInput, _ := reader.ReadString('\n')
+		housesStr := strings.Fields(housesInput)
+
+		houses := make([]int, m)
+		for j := 0; j < m; j++ {
+			houses[j], _ = strconv.Atoi(housesStr[j])
+		}
+
+		rumahkerabat(houses)
+
+		fmt.Printf("Hasil daerah %d: ", i+1)
+		for _, num := range houses {
+			fmt.Printf("%d ", num)
+		}
+		fmt.Println()
+	}
+}
+
 ```
 ![hello world!](assets/t1.png)
 
-## D. Pembagian Ikan Ke Wadah
+## F. Selection Sort Rumah Kerabat Dekat Kanan & Kiri Hercules
 
 ```go
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"math"
+	"os"
+	"strconv"
+	"strings"
 )
 
-// Fungsi untuk menghitung total berat setiap wadah dan rata-rata berat per wadah
-func calculateContainerWeightsAndAverage(x, y int, weights []float64) ([]float64, float64) {
-	// Hitung jumlah wadah
-	numContainers := int(math.Ceil(float64(x) / float64(y)))
-	containerWeights := make([]float64, numContainers)
-
-	// Hitung total berat per wadah
-	for i, weight := range weights {
-		containerWeights[i/y] += weight
+func KerabatDekatGanjil(arr []int) {
+	n := len(arr)
+	for i := 0; i < n-1; i++ {
+		minIdx := i
+		for j := i + 1; j < n; j++ {
+			if arr[j] < arr[minIdx] {
+				minIdx = j
+			}
+		}
+		arr[i], arr[minIdx] = arr[minIdx], arr[i]
 	}
+}
 
-	// Hitung rata-rata berat
-	total := 0.0
-	for _, weight := range containerWeights {
-		total += weight
+func KerabatDekatGenap(arr []int) {
+	n := len(arr)
+	for i := 0; i < n-1; i++ {
+		maxIdx := i
+		for j := i + 1; j < n; j++ {
+			if arr[j] > arr[maxIdx] {
+				maxIdx = j
+			}
+		}
+		arr[i], arr[maxIdx] = arr[maxIdx], arr[i]
 	}
-	average := total / float64(numContainers)
-
-	return containerWeights, average
 }
 
 func main() {
-	var x, y int
-	fmt.Print("Masukkan banyak ikan yang akan dijual: ")
-	fmt.Scan(&x)
-	fmt.Print("Masukkan banyak ikan yang akan dimasukkan ke dalam wadah: ")
-	fmt.Scan(&y)
+	reader := bufio.NewReader(os.Stdin)
 
-	// Validasi input
-	if x <= 0 || y <= 0 || x > 1000 {
-		fmt.Println("Jumlah ikan harus antara 1 dan 1000, dan kapasitas wadah harus lebih dari 0.")
-		return
-	}
+	fmt.Print("Masukkan jumlah daerah (n): ")
+	nInput, _ := reader.ReadString('\n')
+	n, _ := strconv.Atoi(strings.TrimSpace(nInput))
 
-	weights := make([]float64, x)
-	fmt.Printf("Masukkan berat %d ikan (dipisahkan dengan spasi): ", x)
-	for i := 0; i < x; i++ {
-		if _, err := fmt.Scan(&weights[i]); err != nil || weights[i] < 0 {
-			fmt.Println("Berat ikan tidak valid. Masukkan angka positif.")
-			return
+	for i := 0; i < n; i++ {
+		fmt.Printf("Masukkan banyak rumah di daerah %d: ", i+1)
+		mInput, _ := reader.ReadString('\n')
+		m, _ := strconv.Atoi(strings.TrimSpace(mInput))
+
+		fmt.Printf("Masukkan nomor rumah di daerah %d (dipisahkan dengan spasi): ", i+1)
+		housesInput, _ := reader.ReadString('\n')
+		housesStr := strings.Fields(housesInput)
+
+		houses := make([]int, m)
+		for j := 0; j < m; j++ {
+			houses[j], _ = strconv.Atoi(housesStr[j])
 		}
+
+		var oddHouses, evenHouses []int
+		for _, house := range houses {
+			if house%2 == 0 {
+				evenHouses = append(evenHouses, house)
+			} else {
+				oddHouses = append(oddHouses, house)
+			}
+		}
+
+		KerabatDekatGanjil(oddHouses)
+		KerabatDekatGenap(evenHouses)
+
+		fmt.Printf("Hasil daerah %d: ", i+1)
+		for _, house := range oddHouses {
+			fmt.Printf("%d ", house)
+		}
+		for _, house := range evenHouses {
+			fmt.Printf("%d ", house)
+		}
+		fmt.Println()
 	}
-
-	// Panggil fungsi untuk menghitung total berat dan rata-rata
-	containerWeights, totalAverage := calculateContainerWeightsAndAverage(x, y, weights)
-
-	// Cetak hasil
-	fmt.Println("\nTotal berat di setiap wadah:")
-	for i, weight := range containerWeights {
-		fmt.Printf("Wadah %d: %.2f\n", i+1, weight)
-	}
-
-	fmt.Printf("\nRata-rata berat per wadah: %.2f\n", totalAverage)
 }
-
 ```
 ![hello world!](assets/t2.png)
 
-## E. Nilai Ekstim Balita
+## G. Insertion Sort Jarak Antar Angka
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func insertionSort(arr []int) {
+	for i := 1; i < len(arr); i++ {
+		key := arr[i]
+		j := i - 1
+		for j >= 0 && arr[j] > key {
+			arr[j+1] = arr[j]
+			j--
+		}
+		arr[j+1] = key
+	}
+}
+
+func penghitunganjarak(arr []int) string {
+	if len(arr) < 2 {
+		return "Data berjarak tidak tetap"
+	}
+
+	diff := arr[1] - arr[0]
+
+	for i := 2; i < len(arr); i++ {
+		if arr[i]-arr[i-1] != diff {
+			return "Data berjarak tidak tetap"
+		}
+	}
+
+	return fmt.Sprintf("Data berjarak %d", diff)
+}
+
+func main() {
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Println("Masukkan sekumpulan bilangan bulat (akhiri dengan bilangan negatif):")
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+
+	inputs := strings.Fields(input)
+
+	var numbers []int
+	for _, val := range inputs {
+		num, _ := strconv.Atoi(val)
+		if num < 0 {
+			break
+		}
+		numbers = append(numbers, num)
+	}
+
+	insertionSort(numbers)
+
+	status := penghitunganjarak(numbers)
+
+	fmt.Println("Hasil setelah pengurutan:")
+	for _, num := range numbers {
+		fmt.Printf("%d ", num)
+	}
+	fmt.Println()
+	fmt.Println(status)
+}
+
+```
+![hello world!](assets/t3.png)
+
+## H. Insertion Sort Buku 
 
 ```go
 package main
@@ -248,62 +439,108 @@ import (
 	"fmt"
 )
 
-type arrBalita [100]float64
+const nMax = 7919
 
-func hitungMinMax(arrBerat arrBalita, bMin, bMax *float64, n int) {
-	// inisialisasi bMin dan bMax dengan nilai pertama array
-	*bMin = arrBerat[0]
-	*bMax = arrBerat[0]
+type Buku struct {
+	id        int
+	judul     string
+	penulis   string
+	penerbit  string
+	eksemplar int
+	tahun     int
+	rating    int
+}
 
-	// perulangan untuk mencari nilai bMin dan bMax
-	for i := 1; i < n; i++ { // Menggunakan batas n untuk iterasi
-		if arrBerat[i] < *bMin {
-			*bMin = arrBerat[i]
+type DaftarBuku []Buku
+
+// Prosedur DaftarkanBuku
+func tambahbuku(pustaka *DaftarBuku, n int) {
+	for i := 0; i < n; i++ {
+		var buku Buku
+		fmt.Printf("Masukkan data buku ke-%d (id, judul, penulis, penerbit, eksemplar, tahun, rating):\n", i+1)
+		fmt.Scan(&buku.id, &buku.judul, &buku.penulis, &buku.penerbit, &buku.eksemplar, &buku.tahun, &buku.rating)
+		*pustaka = append(*pustaka, buku)
+	}
+}
+
+// Prosedur CetakTerfavorit
+func favoritBuku(pustaka DaftarBuku) {
+	if len(pustaka) == 0 {
+		fmt.Println("Tidak ada buku di pustaka.")
+		return
+	}
+	maxRating := pustaka[0].rating
+	for _, buku := range pustaka {
+		if buku.rating > maxRating {
+			maxRating = buku.rating
 		}
-		if arrBerat[i] > *bMax {
-			*bMax = arrBerat[i]
+	}
+	fmt.Println("Buku dengan rating tertinggi:")
+	for _, buku := range pustaka {
+		if buku.rating == maxRating {
+			fmt.Printf("Judul: %s, Penulis: %s, Penerbit: %s, Tahun: %d, Rating: %d\n", buku.judul, buku.penulis, buku.penerbit, buku.tahun, buku.rating)
 		}
 	}
 }
 
-
-func rerata(arrBerat arrBalita, n int) float64 {
-	var total float64
-	// menggunakan batas n untuk iterasi
-	for i := 0; i < n; i++ {
-		total += arrBerat[i]
+// Prosedur UrutBuku (menggunakan insertion sort)
+func UrutBuku(pustaka *DaftarBuku) {
+	n := len(*pustaka)
+	for i := 1; i < n; i++ {
+		key := (*pustaka)[i]
+		j := i - 1
+		for j >= 0 && (*pustaka)[j].rating < key.rating {
+			(*pustaka)[j+1] = (*pustaka)[j]
+			j--
+		}
+		(*pustaka)[j+1] = key
 	}
-	return total / float64(n)
+}
+
+// Prosedur Cetak5Terbaru
+func ratingTertinggiBuku(pustaka DaftarBuku) {
+	fmt.Println("5 Buku dengan Rating Tertinggi:")
+	for i := 0; i < 5 && i < len(pustaka); i++ {
+		buku := pustaka[i]
+		fmt.Printf("Judul: %s, Penulis: %s, Penerbit: %s, Tahun: %d, Rating: %d\n", buku.judul, buku.penulis, buku.penerbit, buku.tahun, buku.rating)
+	}
+}
+
+// Prosedur CariBuku
+func CariBuku(pustaka DaftarBuku, r int) {
+	found := false
+	fmt.Printf("Buku dengan rating %d:\n", r)
+	for _, buku := range pustaka {
+		if buku.rating == r {
+			fmt.Printf("Judul: %s, Penulis: %s, Penerbit: %s, Eksemplar: %d, Tahun: %d, Rating: %d\n",
+				buku.judul, buku.penulis, buku.penerbit, buku.eksemplar, buku.tahun, buku.rating)
+			found = true
+		}
+	}
+	if !found {
+		fmt.Println("Tidak ada buku dengan rating tersebut.")
+	}
 }
 
 func main() {
-	var arrBerat arrBalita
-	var bMin, bMax float64
-	var n int
+	var pustaka DaftarBuku
+	var n, rating int
 
-	// input jumlah data
-	fmt.Print("Masukkan banyak data berat balita: ")
-	fmt.Scanln(&n)
+	fmt.Print("Masukkan jumlah buku: ")
+	fmt.Scan(&n)
 
-	// validasi jumlah data
-	if n <= 0 || n > len(arrBerat) {
-		fmt.Println("Jumlah data tidak valid")
-		return
-	}
+	tambahbuku(&pustaka, n)
+	fmt.Println("\nData Buku Terfavorit:")
+	favoritBuku(pustaka)
 
-	// input data berat balita
-	for i := 0; i < n; i++ {
-		fmt.Printf("Masukkan berat balita ke-%d: ", i+1)
-		fmt.Scanln(&arrBerat[i])
-	}
+	UrutBuku(&pustaka)
+	fmt.Println("\n5 Buku dengan Rating Tertinggi setelah diurutkan:")
+	ratingTertinggiBuku(pustaka)
 
-	// hitung dan tampilkan nilai minimum, maksimum, dan rerata
-	hitungMinMax(arrBerat, &bMin, &bMax, n)
-
-	// tampilkan hasil
-	fmt.Println("Berat balita minimum: ", bMin, "kg")
-	fmt.Println("Berat balita maksimum: ", bMax, "kg")
-	fmt.Println("Rerata berat balita: ", rerata(arrBerat, n), "kg")
+	fmt.Print("\nMasukkan rating yang ingin dicari: ")
+	fmt.Scan(&rating)
+	CariBuku(pustaka, rating)
 }
+
 ```
-![hello world!](assets/t3.png)
+![hello world!](assets/t4.png)
